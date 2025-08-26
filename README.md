@@ -40,6 +40,7 @@ $ cp alfresco-script-root-object-1.0.0.jar $TOMCAT_DIR/webapps/alfresco/WEB-INF/
 
 # Alfresco Base64 JavaScript Root Object -- Link to MD file
 # Hyland Automate Process JavasScript Object -- Link to MD file
+# Alfresco Repository JavaScript Root Object for RenditionService2 -- Link to MD file
 
 # This is an ACS project for Alfresco SDK 4.11.0.
 

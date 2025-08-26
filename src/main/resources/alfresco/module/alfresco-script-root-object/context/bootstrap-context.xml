@@ -44,4 +44,10 @@
     <property name="apiUrl" value="${hyland.api.url}"/>
   </bean>
 
+  <!-- RenditionService2 a component introduced in Alfresco 7.0 to replace the deprecated renditionService-->
+  <bean id="renditionService2Script" class="org.alfresco.repo.rendition.script.ScriptRenditionService2" parent="baseJavaScriptExtension">
+    <property name="extensionName" value="renditionService2" />
+    <property name="serviceRegistry" ref ="ServiceRegistry" />
+  </bean>
+
 </beans>
