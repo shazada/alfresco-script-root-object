@@ -48,9 +48,9 @@ logger.log(sysAdminParams.getAlfrescoHost());
 
 Now this gives the following error:
 
-```
+`
 2025-08-26T21:27:56,820 [] ERROR [framework.webscripts.ResourceWebScriptPost] [http-nio-8080-exec-4] Exception 03fc708f-02e3-4748-bc70-8f02e30748a6. Request /alfresco/api/-default-/public/alfresco/versions/1/nodes/150398b3-7f82-4cf6-af63-c450ef6c5eb8/move executed by admin returned status code 500 with message: 07260073 Failed to execute script 'workspace://SpacesStore/08ace007-6e11-4e45-ace0-076e111e4500': 07260072 ReferenceError: "Packages" is not defined. 
-```
+`
 
 So the following script wil work
 ```javascript
