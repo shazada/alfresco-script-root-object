@@ -36,6 +36,58 @@ print(globalProperties.all);
 # [Hyland Automate Process JavasScript Object](Hyland_Automate_Process_JavaScript_Root_Object.md)
 # [Alfresco Repository JavaScript Root Object for RenditionService2](Alfresco_Repository_JavaScript_Root_Object_for_RenditionService2.md)
 
+# Troubleshooting "Packages" is not defined
+
+Before 25 version you could have folder-rule which triggerd a JavaScript file with the following content:
+
+```javascript
+var context = Packages.org.springframework.web.context.ContextLoader.getCurrentWebApplicationContext();
+var sysAdminParams = context.getBean('sysAdminParams', Packages.org.alfresco.repo.admin.SysAdminParams);
+logger.log(sysAdminParams.getAlfrescoHost());
+```
+
+Now this gives the following error:
+
+```
+2025-08-26T21:27:56,820 [] ERROR [framework.webscripts.ResourceWebScriptPost] [http-nio-8080-exec-4] Exception 03fc708f-02e3-4748-bc70-8f02e30748a6. Request /alfresco/api/-default-/public/alfresco/versions/1/nodes/150398b3-7f82-4cf6-af63-c450ef6c5eb8/move executed by admin returned status code 500 with message: 07260073 Failed to execute script 'workspace://SpacesStore/08ace007-6e11-4e45-ace0-076e111e4500': 07260072 ReferenceError: "Packages" is not defined. 
+```
+
+So the following script wil now work
+```javascript
+var ctx = packagesScript.getContext();
+var sysAdminParams = ctx.getBean('sysAdminParams', packagesScript.getClass('org.alfresco.repo.admin.SysAdminParams'));
+logger.log(sysAdminParams.getAlfrescoHost());
+```
+
+## What is done?
+
+There is a new Root Object named packagesScript
+This one has the following methods
+- getContext(), similar to the old Packages.org.springframework.web.context.ContextLoader.getCurrentWebApplicationContext();
+- getClass(), similar to Packages.org.alfresco.repo.admin.<class>
+- getMethods(<class>), this will print all methods for the class
+
+```javascript
+print(packagesScript.getMethods('org.alfresco.repo.admin.SysAdminParams'));
+```
+Will print
+```
+0 : public abstract boolean org.alfresco.repo.admin.SysAdminParams.getAllowWrite()
+1 : public abstract int org.alfresco.repo.admin.SysAdminParams.getMaxUsers()
+2 : public abstract java.util.List org.alfresco.repo.admin.SysAdminParams.getAllowedUserList()
+3 : public abstract java.lang.String org.alfresco.repo.admin.SysAdminParams.getSitePublicGroup()
+4 : public abstract java.lang.String org.alfresco.repo.admin.SysAdminParams.subsituteHost(java.lang.String)
+5 : public abstract java.lang.String org.alfresco.repo.admin.SysAdminParams.getAlfrescoProtocol()
+6 : public abstract int org.alfresco.repo.admin.SysAdminParams.getAlfrescoPort()
+7 : public abstract java.lang.String org.alfresco.repo.admin.SysAdminParams.getAlfrescoContext()
+8 : public abstract java.lang.String org.alfresco.repo.admin.SysAdminParams.getShareProtocol()
+9 : public abstract java.lang.String org.alfresco.repo.admin.SysAdminParams.getShareHost()
+10 : public abstract int org.alfresco.repo.admin.SysAdminParams.getSharePort()
+11 : public abstract java.lang.String org.alfresco.repo.admin.SysAdminParams.getShareContext()
+12 : public abstract java.lang.String org.alfresco.repo.admin.SysAdminParams.getAlfrescoHost()
+13 : public abstract java.lang.String org.alfresco.repo.admin.SysAdminParams.getApiExplorerUrl()
+```
+
 # This is an ACS project for Alfresco SDK 4.11.0.
 
 Run with `./run.sh build_start` or `./run.bat build_start` and verify that it
@@ -76,6 +128,6 @@ All the services of the project are now run as docker containers. The run script
 
 # TODO
 
-  * Abstract assembly into a dependency so we don't have to ship the assembly in the archetype
-
-  * Functional/remote unit tests
+  * Create an official release
+  * Clean-up the Readme.MD
+  * Include other Root JavaScript Objects to make this library more richer
