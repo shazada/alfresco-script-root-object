@@ -32,9 +32,9 @@ logger.log(host);
 print(globalProperties.all);
 ```
 
-# Alfresco Base64 JavaScript Root Object -- Link to MD file
-# Hyland Automate Process JavasScript Object -- Link to MD file
-# Alfresco Repository JavaScript Root Object for RenditionService2 -- Link to MD file
+# [Alfresco Base64 JavaScript Root Object](Alfresco_Base64_JavaScript_Root_Object.md)
+# [Hyland Automate Process JavasScript Object](Hyland_Automate_Process_JavaScript_Root_Object.md)
+# [Alfresco Repository JavaScript Root Object for RenditionService2](Alfresco_Repository_JavaScript_Root_Object_for_RenditionService2.md)
 
 # This is an ACS project for Alfresco SDK 4.11.0.
 
@@ -77,4 +77,5 @@ All the services of the project are now run as docker containers. The run script
 # TODO
 
   * Abstract assembly into a dependency so we don't have to ship the assembly in the archetype
+
   * Functional/remote unit tests
