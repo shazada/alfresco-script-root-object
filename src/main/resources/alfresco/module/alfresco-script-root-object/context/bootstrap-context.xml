@@ -50,4 +50,12 @@
     <property name="serviceRegistry" ref ="ServiceRegistry" />
   </bean>
 
+  <!-- Root Object to retreive the Alfresco-Global.properties to use in JavaScript -->
+  <bean id="globalPropertiesScript" parent="baseJavaScriptExtension" class="org.alfresco.repo.jscript.GlobalPropertiesScript">
+    <property name="extensionName" value="globalProperties" />
+    <property name="globalProperties">
+      <ref bean="global-properties" />
+    </property>
+  </bean>
+
 </beans>

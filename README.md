@@ -20,22 +20,16 @@ Allowing the execution of this code requires the JS script deployed with Alfresc
 logger.log(sysAdmin.getAlfrescoHost());
 ```
 
-## Building
+# Alfresco Global properties Root Object
 
-Build the code as a regular Maven project.
+```javascript
+// get mail poller folder from alfresco-global.properties
+var host = globalProperties.get("alfresco.host");
+logger.log(host);
 
-```
-$ mvn clean package
-$ ls target/
-alfresco-script-root-object-1.0.0.jar
-```
-
-## Deploying
-
-Deploy this addon as a regular JAR library to Alfresco Repository WAR.
-
-```
-$ cp alfresco-script-root-object-1.0.0.jar $TOMCAT_DIR/webapps/alfresco/WEB-INF/lib
+// print all properties in the JavaScript Console
+// if you want to use the logger.log you'll propably need to loop through everything
+print(globalProperties.all);
 ```
 
 # Alfresco Base64 JavaScript Root Object -- Link to MD file
