@@ -1,16 +1,61 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans
           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <!-- JavaScript Repository root object to be used as "sysAdmin" -->
-    <bean id="sysAdminParamsScript"
-          class="org.alfresco.repo.jscript.SysAdminParamsScript"
-          parent="baseJavaScriptExtension">
-        <property name="extensionName" value="sysAdmin" />
-        <!-- Injecting "sysAdminParams" Spring Bean from /alfresco/subsystems/sysAdmin/default/sysadmin-parameter-context.xml -->
-        <property name="sysAdminParams" ref ="sysAdminParams" />
-    </bean>
+  <!-- JavaScript Repository root object to be used as "sysAdmin" -->
+  <bean id="sysAdminParamsScript" class="org.alfresco.repo.jscript.SysAdminParamsScript" parent="baseJavaScriptExtension">
+    <property name="extensionName" value="sysAdmin" />
+    <!-- Injecting "sysAdminParams" Spring Bean from /alfresco/subsystems/sysAdmin/default/sysadmin-parameter-context.xml -->
+    <property name="sysAdminParams" ref ="sysAdminParams" />
+  </bean>
+
+  <!--Base64 Script root object to code and decode -->
+  <bean id="base64Script" class="org.alfresco.repo.jscript.Base64Script" parent="baseJavaScriptExtension">
+    <property name="extensionName" value="base64"/>
+    <property name="contentService" ref="ContentService"/>
+  </bean>
+
+  <!--
+        OAuthService Bean
+        This bean provides a utility service for obtaining OAuth 2.0 access tokens
+        using the Client Credentials flow. It is referenced by other components that
+        need authenticated access to Hyland APIs.
+    -->
+  <bean id="oauthService" class="org.alfresco.repo.jscript.auth.OAuthService">
+    <!-- OAuth 2.0 token endpoint, defined in alfresco-global.properties -->
+    <property name="oauthUrl" value="${hyland.oauth.url}"/>
+    <!-- OAuth 2.0 client credentials -->
+    <property name="clientId" value="${hyland.oauth.clientId}"/>
+    <property name="clientSecret" value="${hyland.oauth.secret}"/>
+  </bean>
+
+  <!--
+        HylandProcessScript Bean
+        Exposes a custom root JavaScript object `hylandProcess` into the Alfresco scripting environment.
+        This object allows scripts to start processes in Hyland Automate using authenticated HTTP calls.
+    -->
+  <bean id="hylandProcessScript" parent="baseJavaScriptExtension" class="org.alfresco.repo.jscript.HylandProcessScript">
+    <!-- JavaScript object name used in scripts: hylandProcess.startProcess(...) -->
+    <property name="extensionName" value="hylandProcess" />
+    <!-- Inject the OAuth service bean for authenticated requests -->
+    <property name="oauthService" ref="oauthService"/>
+    <!-- Hyland Automate API base URL, injected from configuration -->
+    <property name="apiUrl" value="${hyland.api.url}"/>
+  </bean>
+
+  <!-- RenditionService2 a component introduced in Alfresco 7.0 to replace the deprecated renditionService-->
+  <bean id="renditionService2Script" class="org.alfresco.repo.rendition.script.ScriptRenditionService2" parent="baseJavaScriptExtension">
+    <property name="extensionName" value="renditionService2" />
+    <property name="serviceRegistry" ref ="ServiceRegistry" />
+  </bean>
+
+  <!-- Root Object to retreive the Alfresco-Global.properties to use in JavaScript -->
+  <bean id="globalPropertiesScript" parent="baseJavaScriptExtension" class="org.alfresco.repo.jscript.GlobalPropertiesScript">
+    <property name="extensionName" value="globalProperties" />
+    <property name="globalProperties">
+      <ref bean="global-properties" />
+    </property>
+  </bean>
 
 </beans>
