@@ -58,4 +58,9 @@
     </property>
   </bean>
 
+  <!-- Root Object to retreive the Alfresco-Global.properties to use in JavaScript -->
+  <bean id="packagesScript" parent="baseJavaScriptExtension" class="org.alfresco.repo.jscript.PackagesScript">
+    <property name="extensionName" value="packagesScript" />
+  </bean>
+
 </beans>
