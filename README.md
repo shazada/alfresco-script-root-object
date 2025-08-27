@@ -1,6 +1,6 @@
 # Alfresco Script Root Object
 
-This is an ACS project for Alfresco SDK 4.5 (ACS 7.3).
+This is an ACS project for Alfresco SDK 4.5 (ACS 25.2).
 
 The project adds a new JavaScript Root Object `sysAdmin` using [Alfresco Repo Extension Point](https://docs.alfresco.com/content-services/latest/develop/repo-ext-points/javascript-root-objects/)
 
@@ -113,18 +113,22 @@ All the services of the project are now run as docker containers. The run script
  the environment.
  * `test`. Execute the integration tests (the environment must be already started).
 
-# Few things to notice
+## Building
+Build the code as a regular Maven project.
 
- * No parent pom
- * No WAR projects, the jars are included in the custom docker images
- * No runner project - the Alfresco environment is now managed through [Docker](https://www.docker.com/)
- * Standard JAR packaging and layout
- * Works seamlessly with Eclipse and IntelliJ IDEA
- * JRebel for hot reloading, JRebel maven plugin for generating rebel.xml [JRebel integration documentation]
- * AMP as an assembly
- * Persistent test data through restart thanks to the use of Docker volumes for ACS, ASS and database data
- * Resources loaded from META-INF
- * Web Fragment (this includes a sample servlet configured via web fragment)
+```
+$ mvn clean package
+$ ls target/
+alfresco-script-root-object-1.0.0.jar
+```
+
+## Deploying
+
+Deploy this addon as a regular JAR library to Alfresco Repository WAR.
+
+```
+$ cp alfresco-script-root-object-1.0.0.jar $TOMCAT_DIR/webapps/alfresco/WEB-INF/lib
+```
 
 # TODO
 
